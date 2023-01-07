@@ -30,13 +30,13 @@
                     <input v-model="repeatPassword" type="password" id="repeatPassword" class="auth-form__input" required />
                     <br />
                     <div class="flexContainer">
-                        <button type="submit" class="auth-form__button">Sign Up</button>
+                        <button type="submit" class="auth-form__button">Register</button>
                     </div>
                 </form>
 
                 <div class="signSwitch">
                     <p> Already registered?</p>
-                    <a href='' @click="navigateToSignIn">Sign in</a>
+                    <a href='' @click="navigateToSignIn">Login</a>
                 </div>
             </div>
             
@@ -54,36 +54,85 @@
  
     const router = useRouter();
 
-    const formData = computed(() => ({
+   /*  const formData = computed(() => ({
         email: email.value,
         password: password.value,
         repeatPassword: repeatPassword.value
     }));
 
+     */
+
+    let email = ref('');
+    let password = ref('');
+    let repeatPassword = ref('');
+
     const strPasswordMatch = "The passwords should match."
     const strUserExist = "This email already has an account associated"
-    const strPasswordFormat =  "The password should be longer than 6 characters"
 
     const onSubmit = async () => {
       try {
+        //Check if there is any user already registered with email
+        const isAlreadyRegistered = await checkUserExists(email.value);
+        
+        if(isAlreadyRegistered){
+            throw new Error(strUserExist);
+        }
         // Validate that the password and repeatPassword fields match
-        if (formData.value.password !== formData.value.repeatPassword) {
-            showToast(strPasswordMatch, "danger");
-            throw new Error('The passwords do not match');
+        if (password.value !== repeatPassword.value) {
+            
+            throw new Error(strPasswordMatch);
         }
         const store = useUserStore()
-        store.signUp(formData.value.email,formData.value.password);
+        const signupResponse = await store.signUp(email.value, password.value);
+
+        if(signupResponse){
+            throw new Error (signupResponse.message)
+        }
        
+        navigateToDashboard();
+
       } catch (error) {
+        showToast(error.message, "danger");
         console.error(error)
       }
+
+      
     }
     
+    async function checkUserExists(email) {
+        try {
+            // Make a GET request passing the email as a query parameter
+            let response =
+                fetch(`/users?email=${email}`)
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+            // Check the response to see if it contains any users with the same email
+            if (response.data.length > 0) {
+            // If there is a user with the same email, return true
+            return true;
+            } else {
+            // If there is no user with the same email, return false
+            return false;
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     function navigateToSignIn() {
       router.push({  path: "/signin" });
     }
 
+    function navigateToDashboard(){
+        router.push({  path: "/dashboard" });
+    }
     function showToast(message, type) {
         // Create the toast element
         const toast = document.createElement('div');

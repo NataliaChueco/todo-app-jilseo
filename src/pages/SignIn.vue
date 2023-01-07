@@ -19,7 +19,7 @@
                 <img src="../assets/otter-solid.svg" alt="otter">
                 <h2> Welcome back! </h2>
                 <p>Ready for some tasks? Get ready! </p>
-                <form @submit.prevent="onSubmit" class="auth-form">
+                <form @submit.prevent="onLogin" class="auth-form">
                     <label for="email" class="auth-form__label">Email</label>
                     <input v-model="email" type="email" id="email" class="auth-form__input" required/>
                     <br />
@@ -27,7 +27,7 @@
                     <input v-model="password" type="password" id="password" class="auth-form__input" required/>
                     <br />
                     <div class="flexContainer">
-                        <button type="submit" class="auth-form__button">Sign In</button>
+                        <button type="submit" class="auth-form__button">Login</button>
                     </div>
                 </form>
 
@@ -46,20 +46,69 @@
 <script setup>
     import '../styles/auth.css';
     import { ref, computed } from 'vue';
- 
-    const email = ref('');
-    const password = ref('');
-    const repeatPassword = ref('');
+    import { useRouter } from 'vue-router';
+    import {useUserStore} from '../store/user';
 
-    const formData = computed(() => ({
-    email: email.value,
-    password: password.value,
-    repeatPassword: repeatPassword.value,
-    }));
+    const router = useRouter();
+
+    let email = ref('');
+    let password = ref('');
+
+    const strUserNotFound = "The user or password is not correct"
 
 
+    const onLogin = async () => {
+      try {
+
+        const store = useUserStore()
+        const signinResponse = await store.signIn(email.value, password.value);
+
+        if(signinResponse){
+            throw new Error (signinResponse.message)
+        }
+
+        navigateToDashboard();
+       
+      } catch (error) {
+        showToast(error.message, "danger");
+        console.error(error)
+      }
+    }
+
+    function showToast(message, type) {
+        // Create the toast element
+        const toast = document.createElement('div');
+        toast.classList.add('toast');
+        toast.innerHTML = `
+            <div class="toast-header">
+            <strong class="mr-auto">Error</strong>
+            </div>
+            <div class="toast-body">
+            ${message}
+            </div>
+        `;
+        toast.style.zIndex = 10;
+        toast.style.position = 'fixed';
+        toast.style.top = '20px';
+        toast.style.right = '2%';
+        toast.style.display = 'block';
+        toast.style.margin = '10px';
+        // Add the appropriate class for the toast type
+        toast.classList.add(`bg-${type}`);
+
+        // Append the toast to the body and show it
+        document.body.appendChild(toast);
+        $('.toast').toast({
+            delay: 5000
+        });
+        $('.toast').toast('show');
+    }
+    
     function navigateToSignUp() {
-      router.push({  path: "/auth" });
+      router.push({  path: "/signup" });
+    }
+    function navigateToDashboard(){
+        router.push({  path: "/dashboard" });
     }
 </script>
 
