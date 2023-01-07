@@ -18,6 +18,7 @@ export const useUserStore = defineStore("user", {
         email: email,
         password: password,
       });
+
       if (error) throw error;
       if (user) this.user = user;
     },

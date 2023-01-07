@@ -36,7 +36,7 @@
 
                 <div class="signSwitch">
                     <p> Already registered?</p>
-                    <a href="" v-on:click='routeSignIn'>Sign in</a>
+                    <a href='' @click="navigateToSignIn">Sign in</a>
                 </div>
             </div>
             
@@ -50,8 +50,9 @@
     import '../styles/auth.css';
     import { ref, computed } from 'vue';
     import {useUserStore} from '../store/user';
-
+    import { useRouter } from 'vue-router';
  
+    const router = useRouter();
 
     const formData = computed(() => ({
         email: email.value,
@@ -79,8 +80,8 @@
     }
     
 
-    function routeSignIn(){
-        router.push("/signin");
+    function navigateToSignIn() {
+      router.push({  path: "/signin" });
     }
 
     function showToast(message, type) {
