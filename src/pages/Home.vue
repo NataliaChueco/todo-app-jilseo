@@ -1,11 +1,15 @@
 
 <template>
-    <div class="backgroundContainer">
-       <h1> HELLO </h1>
+  <Navbar></Navbar>
+  <Sidebar></Sidebar>   
+  <div class="currentContent">
 
-    </div>
+  </div>
    
-  </template>
+</template>
 
 <script setup>
+import Navbar from '../components/Navbar.vue';
+import Sidebar from '../components/Sidebar.vue';
+
 </script>

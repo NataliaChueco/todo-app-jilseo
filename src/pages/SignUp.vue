@@ -36,7 +36,7 @@
 
                 <div class="signSwitch">
                     <p> Already registered?</p>
-                    <a href='' @click="navigateToSignIn">Login</a>
+                    <a href='' @click="utils.navigateTo('signin', router)">Login</a>
                 </div>
             </div>
             
@@ -48,35 +48,23 @@
   
 <script setup>
     import '../styles/auth.css';
-    import { ref, computed } from 'vue';
+    import { ref } from 'vue';
     import {useUserStore} from '../store/user';
     import { useRouter } from 'vue-router';
+    import * as utils from '../shared/utils.js';
  
     const router = useRouter();
-
-   /*  const formData = computed(() => ({
-        email: email.value,
-        password: password.value,
-        repeatPassword: repeatPassword.value
-    }));
-
-     */
 
     let email = ref('');
     let password = ref('');
     let repeatPassword = ref('');
 
     const strPasswordMatch = "The passwords should match."
-    const strUserExist = "This email already has an account associated"
-
+    const strUserExist = "This email already has an account associated."
+    const emailPattern = "This is not a valid email."
     const onSubmit = async () => {
       try {
-        //Check if there is any user already registered with email
-        const isAlreadyRegistered = await checkUserExists(email.value);
-        
-        if(isAlreadyRegistered){
-            throw new Error(strUserExist);
-        }
+
         // Validate that the password and repeatPassword fields match
         if (password.value !== repeatPassword.value) {
             
@@ -89,78 +77,15 @@
             throw new Error (signupResponse.message)
         }
        
-        navigateToDashboard();
+        utils.navigateTo("dashboard", router);
+    
 
       } catch (error) {
-        showToast(error.message, "danger");
+        utils.showToast(error.message, "danger");
         console.error(error)
       }
-
-      
     }
     
-    async function checkUserExists(email) {
-        try {
-            // Make a GET request passing the email as a query parameter
-            let response =
-                fetch(`/users?email=${email}`)
-                .then(response => {
-                    return response.json();
-                })
-                .then(data => {
-                    console.log(data);
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-            // Check the response to see if it contains any users with the same email
-            if (response.data.length > 0) {
-            // If there is a user with the same email, return true
-            return true;
-            } else {
-            // If there is no user with the same email, return false
-            return false;
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
-    function navigateToSignIn() {
-      router.push({  path: "/signin" });
-    }
-
-    function navigateToDashboard(){
-        router.push({  path: "/dashboard" });
-    }
-    function showToast(message, type) {
-        // Create the toast element
-        const toast = document.createElement('div');
-        toast.classList.add('toast');
-        toast.innerHTML = `
-            <div class="toast-header">
-            <strong class="mr-auto">Error</strong>
-            </div>
-            <div class="toast-body">
-            ${message}
-            </div>
-        `;
-        toast.style.zIndex = 10;
-        toast.style.position = 'fixed';
-        toast.style.top = '20px';
-        toast.style.right = '2%';
-        toast.style.display = 'block';
-        toast.style.margin = '10px';
-        // Add the appropriate class for the toast type
-        toast.classList.add(`bg-${type}`);
-
-        // Append the toast to the body and show it
-        document.body.appendChild(toast);
-        $('.toast').toast({
-            delay: 5000
-        });
-        $('.toast').toast('show');
-    }
   
 </script>
 

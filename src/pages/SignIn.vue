@@ -33,7 +33,7 @@
 
                 <div class="signSwitch">
                     <p> Don't have an account?</p>
-                    <a href='' @click="navigateToSignUp">Get started!</a>
+                    <a href='' @click="utils.navigateTo('signup', router)">Get started!</a>
                 </div>
             </div>
             
@@ -48,7 +48,8 @@
     import { ref, computed } from 'vue';
     import { useRouter } from 'vue-router';
     import {useUserStore} from '../store/user';
-
+    import * as utils from '../shared/utils.js';
+ 
     const router = useRouter();
 
     let email = ref('');
@@ -67,49 +68,15 @@
             throw new Error (signinResponse.message)
         }
 
-        navigateToDashboard();
+        utils.navigateTo('dashboard', router);
        
       } catch (error) {
-        showToast(error.message, "danger");
+        utils.showToast(error.message, "danger");
         console.error(error)
       }
     }
 
-    function showToast(message, type) {
-        // Create the toast element
-        const toast = document.createElement('div');
-        toast.classList.add('toast');
-        toast.innerHTML = `
-            <div class="toast-header">
-            <strong class="mr-auto">Error</strong>
-            </div>
-            <div class="toast-body">
-            ${message}
-            </div>
-        `;
-        toast.style.zIndex = 10;
-        toast.style.position = 'fixed';
-        toast.style.top = '20px';
-        toast.style.right = '2%';
-        toast.style.display = 'block';
-        toast.style.margin = '10px';
-        // Add the appropriate class for the toast type
-        toast.classList.add(`bg-${type}`);
-
-        // Append the toast to the body and show it
-        document.body.appendChild(toast);
-        $('.toast').toast({
-            delay: 5000
-        });
-        $('.toast').toast('show');
-    }
     
-    function navigateToSignUp() {
-      router.push({  path: "/signup" });
-    }
-    function navigateToDashboard(){
-        router.push({  path: "/dashboard" });
-    }
 </script>
 
 
