@@ -1,0 +1,139 @@
+.dashboard-container{
+    width: 82%;
+}
+
+.dashboard-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 30px;
+}
+
+.dashboard-header h3{
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.dashboard-buttons{
+    display: flex;
+    justify-content: space-between;
+    margin-left: 25px;
+}
+
+.dashboard-filters{
+    display: flex;
+    align-items: center;
+    margin-left: 30px;
+}
+
+.buttons__filters{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.filters__show{
+    margin-right: 125px;
+}
+
+.filters__show span, .filters__quick span{
+    display: flex;
+    align-items: center;
+}
+
+
+.filters__show span p, 
+.filters__show span a{
+    margin-right: 15px;
+    font-size: 16px;
+    padding: 5px;
+}
+.filters__show span a{
+    color:#676767;
+}
+
+.filter-active{
+    color:#6B08A5;
+}
+
+.filters__show a:hover{
+    background-color: #b9b9b9;
+    text-decoration: none;
+    border-radius: 5%;
+}
+
+.filters__quick span p, button{
+    margin-right: 10px;
+}
+
+.buttons__addColumn button{
+    display: flex;
+    align-items: center;
+}
+
+.buttons__addColumn button i{
+    margin-right: 8px;
+}
+.dashboard-columns{
+    width:100%;
+}
+.columns__column{
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    height: 100vh;
+    margin: 0px 30px;
+}
+
+.column__name span, .add-task span{
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.column__name span i, .add-task span i{
+    margin-right: 10px;
+}
+
+div[contenteditable] {
+    text-align: left;
+    padding: 10px;
+  }
+
+  div[contenteditable]:focus {
+    outline: none;
+  }
+
+  div[contenteditable]:hover {
+    background-color: #f2f2f2;
+    border-radius: 5px;
+  }
+
+
+.column__container{
+    width: 100%;
+    height: 100%;
+    background-color: #F2F2F2;
+    border-radius: 15px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.add-task{
+    width: 90%;
+    height: 60px;
+    background-color: #E9E9E9;
+    border-radius: 10px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #ADADAD;
+}
+
+.add-task:hover{
+    background-color: #d1d1d1;
+    color: #8d8d8d;
+}
