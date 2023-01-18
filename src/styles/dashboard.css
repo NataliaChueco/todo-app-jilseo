@@ -76,6 +76,8 @@
 }
 .dashboard-columns{
     width:100%;
+    display: flex;
+    justify-content: flex-start;
 }
 .columns__column{
     display: flex;
@@ -83,6 +85,12 @@
     width: 20%;
     height: 100vh;
     margin: 0px 30px;
+}
+
+.column__name{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .column__name span, .add-task span{

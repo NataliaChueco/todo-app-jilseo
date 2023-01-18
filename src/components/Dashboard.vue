@@ -31,7 +31,7 @@
                 </div>
             </div>
             <div class="buttons__addColumn">
-                <button type="button" class="btn btn-secondary btn-sm">
+                <button @click="addColumn" type="button" class="btn btn-secondary btn-sm">
                     <i class="fa-regular fa-square-plus"></i>
                     <p> ADD COLUMN </p>
                 </button>
@@ -39,12 +39,17 @@
        </div>
        <hr>
        <div class="dashboard-columns">
-            <div class="columns__column">
+            <div class="columns__column" v-for="(column, index) in columns" :key="index" >
                 <div class="column__name">
                     <span>
                         <i class="fa-solid fa-pencil"></i>
-                        <div contenteditable="true">NAME COLUMN</div>
+                        <div> COL {{ index + 1 }}:</div>
+                        <div contenteditable="true">NAME COLUMN </div>
+
                     </span>
+                    <button @click="deleteColumn(index)" class="btn btn-secondary btn-sm"> 
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
                 </div>
                 <div class="column__container">
                     <div class="add-task">
@@ -61,8 +66,35 @@
 </template>
 
 <script setup>
- import '../styles/dashboard.css';
+    import '../styles/dashboard.css';
+    import { ref } from 'vue';
+    let maxColumns = 5;
 
+    let columns = ref([{
+        id: 1,
+        name: "" 
+    }]);
+    
+    const addColumn = () => {
+        let currentIndex = columns.value.length;
+        
+        if(currentIndex < maxColumns){
+            const column = {
+                id: currentIndex+1,
+                name: ""
+            }
+            columns.value.push(column)
+        }
+        
+        // TODO:  emit an event in addColumn method to notify the parent component when a new column is added and pass the column data.
+        // this.$emit('columnAdded', column)
+    }
+
+    function deleteColumn(id) {
+        columns.value.splice(id, 1);
+        console.log("Eliminado:", columns)
+    
+    }
 
 </script>
 
