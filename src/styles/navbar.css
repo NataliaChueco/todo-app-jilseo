@@ -1,85 +1,95 @@
-.navbarContainer{
-    display:flex;
-    background-color:#6930C3;
-    justify-content: space-between;
-    padding: 10px 20px;
-    width: 100%;
+.navbarContainer {
+	display: flex;
+	background-color: #6930c3;
+	justify-content: space-between;
+	padding: 10px 20px;
+	width: 100%;
 }
 
-.jilseoBrand{
-    width: 20%;
-    display: flex;
-    align-items: center;
+.jilseoBrand {
+	width: 20%;
+	display: flex;
+	align-items: center;
 }
-.jilseoBrand img{
-    width: 115px;
-}
-
-.rightItems{
-    width: 80%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+.jilseoBrand img {
+	width: 115px;
 }
 
-.search-container{
-    margin-right: 50px;
-    position:relative;
+.rightItems {
+	width: 80%;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
 }
 
-.input-search{
-    height: 35px;
-    border-radius: 5px;
-    position:relative;
-    background-color: #412F76;
-    width: 333px;
-    margin-left: 15px;
+.search-container {
+	margin-right: 50px;
+	position: relative;
+}
+
+.input-search {
+	height: 35px;
+	border-radius: 5px;
+	position: relative;
+	background-color: #412f76;
+	width: 333px;
+	margin-left: 15px;
 }
 
 .fa-magnifying-glass::before {
-    content: "\f002";
-    position: absolute;
-    right: 13px;
-    top: 11px;
-    color: #9B8ACA;
-    z-index: 10;
+	content: "\f002";
+	position: absolute;
+	right: 13px;
+	top: 11px;
+	color: #9b8aca;
+	z-index: 10;
 }
 
 .input-search::placeholder {
-    font-family: 'Roboto', sans-serif; /* change font as needed */
-    font-size: 16px; /* change font size as needed */
-    text-indent: 15px; /* add indentation as needed */
-    color:#9B8ACA;
-  }
-
-
-.notifications{
-    width: 5%;
-}
-.notifications i{
-    color: #9B8ACA;
-    font-size: 20px;
-}
-.userProfile{
-    display: flex;
-    align-items: center;
-
+	font-family: "Roboto", sans-serif; /* change font as needed */
+	font-size: 16px; /* change font size as needed */
+	text-indent: 15px; /* add indentation as needed */
+	color: #9b8aca;
 }
 
-.userProfile img{
-    width: 50px;
-    height:auto;
-    border-radius: 50%;
+.notifications {
+	width: 5%;
 }
 
-.userProfile p{
-    margin: 0 20px;
-    color: white;
-    overflow: hidden;
+.logout {
+	margin-left: 60px;
+	width: 25px;
+}
+.notifications i,
+.logout i {
+	color: #9b8aca;
+	font-size: 20px;
 }
 
-.userProfile svg{
-    width: 17px;
-    margin: 0 19px;
-    fill: white;
+.logout i:hover {
+	color: #f5f1fe;
+	font-size: 26px;
+}
+
+.userProfile {
+	display: flex;
+	align-items: center;
+}
+
+.userProfile img {
+	width: 50px;
+	height: auto;
+	border-radius: 50%;
+}
+
+.userProfile p {
+	margin: 0 20px;
+	color: white;
+	overflow: hidden;
+}
+
+.userProfile svg {
+	width: 17px;
+	margin: 0 19px;
+	fill: white;
 }
