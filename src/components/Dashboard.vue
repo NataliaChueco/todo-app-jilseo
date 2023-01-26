@@ -70,24 +70,31 @@
 						</button>
 					</div>
 					<div class="column__container">
-						<div class="add-task" @click="showTaskModal = true">
+						<!-- Button trigger modal -->
+						<button
+							type="button"
+							class="btn btn-primary add-task"
+							data-toggle="modal"
+							data-target="#exampleModalCenter"
+						>
 							<span>
 								<i class="fa-solid fa-plus"></i>
-								<p>Add new task</p>
+								Add new task
 							</span>
-						</div>
+						</button>
 					</div>
 				</div>
 			</div>
 		</div>
+
 		<div v-else>
 			<div class="loading">
 				<div class="loading-spinner"></div>
 			</div>
 		</div>
 
+		<!-- Modal -->
 		<div
-			v-if="showTaskModal"
 			class="modal fade"
 			id="exampleModalCenter"
 			tabindex="-1"
@@ -98,40 +105,57 @@
 			<div class="modal-dialog modal-dialog-centered" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLongTitle">
-							<i class="fa-solid fa-book-bookmark"></i>
-							<div class="add-title" contenteditable="true">
-								Add title here...
+						<div class="task-title">
+							<div class="title-name">
+								<i class="fa-solid fa-book-bookmark"></i>
+								<div
+									contenteditable
+									class="modal-title-edit"
+									id="exampleModalLongTitle"
+								>
+									Add task name here...
+								</div>
 							</div>
-						</h5>
+							<div class="task-column">
+								<p>currently on column: COLUMN</p>
+							</div>
+						</div>
+
 						<button
 							type="button"
 							class="close"
 							data-dismiss="modal"
 							aria-label="Close"
-							@click="showTaskModal = false"
 						>
-							<span aria-hidden="true"><i class="fa-solid fa-xmark"></i></span>
+							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
-					<div class="modal-body">
-						<div class="modal-content__left">
-							<div class="modal__descrp">
-								<i class="fa-solid fa-bars-staggered"></i>
-								<div class="descrp">Description</div>
-								<div class="add-descrp" contenteditable="true">
+					<div class="body-columns">
+						<div class="modal-body">
+							<div class="task-descrp">
+								<div class="descrp-name">
+									<i class="fa-solid fa-bars-staggered"></i>
+									<div class="modal-title" id="exampleModalLongTitle">
+										Description
+									</div>
+								</div>
+								<div class="block-edit" contenteditable>
 									Add a more extensive description here...
 								</div>
 							</div>
-							<div class="modal__comments">
-								<i class="fa-regular fa-comment"></i>
-								<div class="descrp">Comments</div>
-								<div class="add-descrp" contenteditable="true">
+							<div class="task-comments">
+								<div class="comments-name">
+									<i class="fa-regular fa-comments"></i>
+									<div class="modal-title" id="exampleModalLongTitle">
+										Comments
+									</div>
+								</div>
+								<div class="block-edit" contenteditable>
 									Write here your comment...
 								</div>
 							</div>
 						</div>
-						<div class="modal-content__right">
+						<div class="modal-body__right">
 							<button
 								type="button"
 								class="modal__assign btn btn-secondary btn-sm"
@@ -164,6 +188,7 @@
 							</button>
 						</div>
 					</div>
+
 					<div class="modal-footer">
 						<button
 							type="button"
@@ -172,7 +197,9 @@
 						>
 							Close
 						</button>
-						<button type="button" class="btn btn-primary">Save changes</button>
+						<button type="button" class="btn btn-primary save-btn">
+							Save changes
+						</button>
 					</div>
 				</div>
 			</div>
@@ -182,18 +209,15 @@
 
 <script setup>
 	import "../styles/dashboard.css";
-	import { ref } from "vue";
+	import { ref, onMounted } from "vue";
 	import { useColumnStore } from "../store/column";
-	import { onMounted } from "vue";
-	import { debounce } from "lodash";
 
 	const columns = ref([]);
 	const loading = ref(true);
 	let maxColumns = 5;
 	const store = useColumnStore();
 	const columnName = ref("");
-
-	const showTaskModal = ref(false);
+	const showModal = ref(false);
 
 	onMounted(async () => {
 		try {
@@ -209,7 +233,7 @@
 
 	function addColumn() {
 		if (columns.value.length < maxColumns) {
-			store.addColumn("new column").then(function () {
+			store.addColumn("New column").then(function () {
 				store.fetchColumns().then(function (response) {
 					columns.value = response;
 				});
@@ -227,8 +251,6 @@
 				columns.value = response;
 			});
 		});
-
-		console.log(columns);
 	}
 </script>
 

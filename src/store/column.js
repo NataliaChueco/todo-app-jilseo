@@ -14,7 +14,6 @@ export const useColumnStore = defineStore("columns", {
 				.from("columns")
 				.select()
 				.order("id", { ascending: true });
-			console.log("columns dentro fetch ", columns);
 			return columns;
 		},
 
