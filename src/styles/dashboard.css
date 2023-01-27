@@ -221,3 +221,61 @@ div[contenteditable]:hover {
 	margin-left: 40px;
 	margin-top: 10px;
 }
+
+/*TASK TARGET*/
+
+.cards-tasks {
+	width: 90%;
+}
+
+.card-container {
+	background-color: white;
+	border-left: 2px solid blue;
+	border-radius: 10px;
+	padding: 20px;
+	height: 250px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+}
+
+.card-title {
+	font-size: 18px;
+	font-weight: 700;
+}
+
+.card-descrp p {
+	line-height: 2;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.card-assign {
+	margin-top: 20px;
+}
+
+.card-deadline {
+	display: flex;
+	justify-content: space-between;
+}
+
+.very-low-priority-icon i {
+	color: #2e9bff;
+}
+
+.low-priority-icon i {
+	color: #0038ff;
+}
+
+.medium-priority-icon i {
+	color: #ffbe16;
+}
+
+.high-priority-icon i {
+	color: #ed9003;
+}
+.very-high-priority-icon i {
+	color: #ff5a5a;
+}

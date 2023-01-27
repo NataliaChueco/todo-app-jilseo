@@ -82,6 +82,46 @@
 								Add new task
 							</span>
 						</button>
+
+						<div class="cards-tasks">
+							<div class="card-container">
+								<div class="card-title">
+									<h4>TASK TITLE HERE</h4>
+								</div>
+								<div class="card-descrp">
+									<p>
+										Lorem ipsum dolor sit amet consectetur adipisicing elit.
+										Alias necessitatibus eos explicabo rem ipsum, odit incidunt
+										obcaecati, at vitae natus quasi est tempora ipsam similique
+										facere magni minima. Pariatur, eos.
+									</p>
+								</div>
+								<div class="card-assign">
+									<p>User name here</p>
+								</div>
+								<div class="card-deadline">
+									<span> None </span>
+									<div
+										v-if="priority === 'very low'"
+										class="very-low-priority-icon"
+									>
+										<i class="fa-solid fa-angles-down"></i>
+									</div>
+									<div v-if="priority === 'low'" class="low-priority-icon">
+										<i class="fa-solid fa-angle-down"></i>
+									</div>
+									<div
+										v-if="priority === 'medium'"
+										class="medium-priority-icon"
+									>
+										<i class="fa-solid fa-angle-down"></i>
+									</div>
+									<div v-if="priority === 'high'" class="high-priority-icon">
+										<i class="fa-solid fa-angle-down"></i>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -218,6 +258,7 @@
 	const store = useColumnStore();
 	const columnName = ref("");
 	const showModal = ref(false);
+	let priority = ref("very low");
 
 	onMounted(async () => {
 		try {
