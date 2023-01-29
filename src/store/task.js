@@ -47,7 +47,6 @@ export const useTaskStore = defineStore("tasks", {
 		async updateTask(currentTask) {
 			const userStore = useUserStore();
 			let user = await userStore.fetchUser();
-			console.log(currentTask);
 			const { data: error } = await supabase
 				.from("tasks")
 				.update({
@@ -59,6 +58,18 @@ export const useTaskStore = defineStore("tasks", {
 					assign_to: currentTask.assign_to,
 				})
 				.eq("id", currentTask.id);
+
+			console.log(error);
+		},
+
+		//DRAG AND DROP
+		async dragAndDropTask(taskId, newColumnId) {
+			const { data: error } = await supabase
+				.from("tasks")
+				.update({
+					column_id: newColumnId,
+				})
+				.eq("id", taskId);
 
 			console.log(error);
 		},

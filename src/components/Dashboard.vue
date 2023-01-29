@@ -50,6 +50,9 @@
 					class="columns__column"
 					v-for="(column, index) in columns"
 					:key="index"
+					@drop="onDrop($event, column)"
+					@dragenter.prevent
+					@dragover.prevent
 				>
 					<div class="column__name">
 						<span>
@@ -101,7 +104,6 @@
 													contenteditable
 													class="modal-title-edit"
 													id="exampleModalLongTitle"
-													ref="currentTaskTitle"
 													@blur="
 														updateTaskInfo('title', $event.target.innerText)
 													"
@@ -134,7 +136,6 @@
 												</div>
 												<div
 													class="block-edit"
-													ref="currentTaskDescrp"
 													@blur="
 														updateTaskInfo('descrp', $event.target.innerText)
 													"
@@ -218,6 +219,8 @@
 								data-toggle="modal"
 								v-bind:data-target="`#updateTaskModal${index}${taskIndex}`"
 								@click="getTask(task.id)"
+								draggable="true"
+								@dragstart="startDrag($event, task)"
 							>
 								<div class="card-title">
 									<h4>{{ task.title }}</h4>
@@ -277,7 +280,6 @@
 															contenteditable
 															class="modal-title-edit"
 															id="exampleModalLongTitle"
-															ref="currentTaskTitle"
 															@blur="
 																updateTaskInfo('title', $event.target.innerText)
 															"
@@ -313,7 +315,6 @@
 														</div>
 														<div
 															class="block-edit"
-															ref="currentTaskDescrp"
 															@blur="
 																updateTaskInfo(
 																	'descrp',
@@ -442,6 +443,8 @@
 
 	onMounted(async () => {
 		try {
+			currentTaskDescrp.value = "Add a more extensive description here...";
+			currentTaskTitle.value = "Add task name here...";
 			const fetchedColumns = await columnStore.fetchColumns();
 			columns.value = fetchedColumns;
 			setTimeout(() => {
@@ -450,10 +453,6 @@
 		} catch (error) {
 			console.error(error);
 		}
-
-		const el = this.$refs.draggable;
-		el.style.position = "absolute";
-		el.style.cursor = "move";
 	});
 
 	// COLUMN FUNCTIONS
@@ -511,6 +510,7 @@
 	function getTask(id) {
 		taskStore.getTask(id).then(function (response) {
 			currentTask.value = response[0];
+			return response[0];
 		});
 	}
 
@@ -534,38 +534,26 @@
 		});
 	}
 
-	function dragAndDropTask(taskId) {
-		taskStore.updateTask(currentTask.value).then(function () {
+	function dragAndDropTask(taskId, columId) {
+		taskStore.dragAndDropTask(taskId, columId).then(function () {
 			columnStore.fetchColumns().then(function (response) {
 				columns.value = response;
 			});
 		});
 	}
 
-	//DRAG AND DROP
-	const element = ref({ name: "element", x: 0, y: 0 });
-	const isDragging = ref(false);
-	const startX = ref(0);
-	const startY = ref(0);
+	const startDrag = (event, task) => {
+		console.log(task);
+		event.dataTransfer.dropEffect = "move";
+		event.dataTransfer.effectAllowed = "move";
+		event.dataTransfer.setData("taskId", task.id);
+		event.dataTransfer.setData("columnId", task.colum_id);
+	};
 
-	function startDragging(event) {
-		isDragging.value = true;
-		startX.value = event.clientX;
-		startY.value = event.clientY;
-	}
-
-	function drag(event) {
-		if (!isDragging.value) return;
-
-		const x = event.clientX;
-		const y = event.clientY;
-		element.value.x = x - startX.value;
-		element.value.y = y - startY.value;
-	}
-
-	function stopDragging() {
-		isDragging.value = false;
-	}
+	const onDrop = (event, column) => {
+		const taskId = event.dataTransfer.getData("taskId");
+		dragAndDropTask(taskId, column.id);
+	};
 </script>
 
 <style>
